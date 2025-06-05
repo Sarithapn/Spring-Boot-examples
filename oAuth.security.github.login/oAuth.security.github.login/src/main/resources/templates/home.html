@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Welcome</h1>
+<div th:if="${name}">
+    Hello, <span th:text="${name}"></span>!
+</div>
+<div th:unless="${name}">
+    <a href="/oauth2/authorization/github">Login with GitHub</a>
+</div>
+</body>
+</html>
