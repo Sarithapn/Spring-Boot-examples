@@ -22,28 +22,8 @@ public class TestController {
 
 
 
-    private AuthenticationManager authenticationManager;
-    public TestController(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-    }
+//
 
-    @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
-        // Here you should validate the username and password (e.g., check against DB)
-        // For demo, we skip validation and always generate a token
-        System.out.println("Authentication request received for user: " + request.getUsername());
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
-            );
-        } catch (AuthenticationException ex) {
-            System.out.println("Authentication failed: " + ex.getMessage());
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        String token = JWTUtil.generateToken(request.getUsername(), 1000 * 60 * 60); // 1 hour expiry
-        AuthenticationResponse response = new AuthenticationResponse(token);
-        return ResponseEntity.ok(response);
-    }
 
     @GetMapping("/")
     public String home() {
