@@ -7,9 +7,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
 public class MovieRatingController {
+
+
+    private final AtomicInteger counter = new AtomicInteger(0);
 
     @GetMapping("/ratingsdata/{movieId}")
     public Rating getRating(@PathVariable String movieId) {
@@ -18,14 +22,23 @@ public class MovieRatingController {
         return new Rating(movieId, 4.5f);
     }
 
-    @GetMapping("/ratingsdata/users/{userId}")
+   // @GetMapping("/ratingsdata/users/{userId}")
+    @GetMapping(value = "/ratingsdata/users/{userId}", produces = "application/json")
     public UserRating getuserRating(@PathVariable String userId) {
         List<Rating> rating = List.of(
-                new Rating("1", 4.5f),
-                new Rating("2", 3.5f),
-                new Rating("3", 5.0f)
+                new Rating("500", 4.5f),
+                new Rating("200", 3.5f),
+                new Rating("400", 5.0f)
         );
-        UserRating userRating = UserRating.builder()
+        int current = counter.incrementAndGet();
+        int sleepTime = (current % 2 == 0) ? 4000 : 2000; // 3 sec for even, 4 sec for odd
+        try {
+            System.out.println("Thread " + Thread.currentThread().getName() + " is sleeping for " + sleepTime + " milliseconds." + " Current count: " + current);
+            Thread.sleep(sleepTime); // Sleep for 3 seconds
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            // Optionally log or handle the interruption
+        }        UserRating userRating = UserRating.builder()
                                 .ratings(rating)
                                 .build();
         return userRating;
