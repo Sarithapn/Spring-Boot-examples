@@ -19,15 +19,15 @@ public class UserRatingServiceRest {
 
     @CircuitBreaker(name = "movieRatingCBRest", fallbackMethod = "getFallbackUserRatingRest")
     public UserRating getUserRating(String userId) {
-        try {
+     //   try {
         return restTemplate.getForObject(
                 "http://movie-Rating-service/ratingsdata/users/" + userId,
                 UserRating.class
         );
-    } catch (Exception ex) {
-            System.out.println("Exception occurred while fetching user rating: " + ex.getMessage());
-        return getFallbackUserRatingRest(userId, ex);
-    }
+//    } catch (Exception ex) {
+//            System.out.println("Exception occurred while fetching user rating: " + ex.getMessage());
+//        return getFallbackUserRatingRest(userId, ex);
+//    }
     }
     public UserRating getFallbackUserRatingRest(String userId, Throwable t) {
         UserRating userRating = new UserRating();

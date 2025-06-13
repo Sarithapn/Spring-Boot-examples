@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 public class MovieInfoController {
 
+
     @Value("${moviedb.key}")
     private String moviedbKey;
 
