@@ -18,11 +18,49 @@ class leetcode {
 //     	int i = sc.nextInt();
 //     	System.out.println(isPalindrome(i));
      	
-     	String[] arr = {"flow","flower","float","fly"};
-     	System.out.println("approach 1 "+longestCommonPrefix(arr));
-     	System.out.println("approach 2 "+longestCommonPrefix2(arr));
+//     	String[] arr = {"flow","flower","float","fly"};
+//     	System.out.println("approach 1 "+longestCommonPrefix(arr));
+//     	System.out.println("approach 2 "+longestCommonPrefix2(arr));
+
+         String string = "({{[]}}()";
+         System.out.println("isvalidstring   "+isValid(string));
+
+
      	
      }
+
+    public static boolean isValid(String s) {
+         boolean result  = true;
+        List<Character> openingBraces = Arrays.asList('(','{','[');
+        List<Character> closingBraces = Arrays.asList(')','}',']');
+        char[] arr = new char[s.length()];
+        int top = -1;
+
+        for(char c :s.toCharArray())
+        {
+          if(openingBraces.contains(c))
+          {
+              top++;
+              arr[top] = c;
+          }
+          else {
+
+              if((c == ')' &&  arr[top] != '(') ||
+                      (c == '}' &&  arr[top] != '{') ||
+                      (c == ']' &&  arr[top] != '[')
+              )              {
+                  return false;
+              }
+              top--;
+
+          }
+        }
+
+        if(top !=-1)
+            result = false;
+
+         return result;
+    }
 	 
 	   public static String longestCommonPrefix(String[] strs) {
 
